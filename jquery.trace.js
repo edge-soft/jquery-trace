@@ -69,14 +69,21 @@
 				if (settings.hover){settings.hover.trigger('traceBlur', [$this]);}
 				if (element){
 					element = $(element);
+					if (tracer.width() == 0){
+						tracer.css({
+							'width':element.outerWidth(),
+							'height':element.outerHeight(),
+							'top':element.position().top,
+							'left':element.position().left
+						});
+					}
 					settings.hover = element;
 					$this.data('trace', settings);
-					var left = element.position().left;
-					var top = element.position().top;
 					element.trigger('traceFocus', [$this]);
 					tracer.stop().animate({
-						'top':top,
-						'left':left,
+						'opacity':1,
+						'top':element.position().top,
+						'left':element.position().left,
 						'width': element.outerWidth(),
 						'height': element.outerHeight()
 					}, settings.animate*1000, settings.animateEasing)
@@ -87,10 +94,8 @@
 					settings.hover = false;
 					$this.data('trace', settings);
 					tracer.stop().animate({
-						'top':0,
-						'left':0,
-						'width': 0
-					}, settings.animate*1000, settings.animateEasing)
+						'opacity':0
+					}, settings.animate*1000, settings.animateEasing, function(){tracer.width(0)})
 					$this.trigger('traceHighlight', []);
 				}
 			})
