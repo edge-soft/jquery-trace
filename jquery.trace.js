@@ -38,13 +38,14 @@
 					$this.data('trace', settings);
 					$this.css({'position': 'relative'});
 					var revert = $this.find('.'+settings.selectedClass);
-					var tracer = $(settings.tracer).attr('id', settings.id).css({'position':'absolute', 'left':'0px', 'width': '0px', 'top': '0px', 'padding': '0', 'margin': '0'});
+					var tracer = $(settings.tracer).attr('id', settings.id).css({'position':'absolute', 'left':'0px', 'width': '0px', 'top': '0px', 'padding': '0', 'margin': '0', 'opacity':0});
 					if (revert.size()){
 						tracer.css({
+							'opacity': 1,
 							'top':revert.position().top,
 							'left':revert.position().left,
-							'width': revert.outerWidth(),
-							'height': revert.outerHeight()
+							'width': revert.outerWidth(true),
+							'height': revert.outerHeight(true)
 						})
 					}
 					$this.append(tracer);
@@ -71,8 +72,8 @@
 					element = $(element);
 					if (tracer.width() == 0){
 						tracer.css({
-							'width':element.outerWidth(),
-							'height':element.outerHeight(),
+							'width':element.outerWidth(true),
+							'height':element.outerHeight(true),
 							'top':element.position().top,
 							'left':element.position().left
 						});
@@ -84,8 +85,8 @@
 						'opacity':1,
 						'top':element.position().top,
 						'left':element.position().left,
-						'width': element.outerWidth(),
-						'height': element.outerHeight()
+						'width': element.outerWidth(true),
+						'height': element.outerHeight(true)
 					}, settings.animate*1000, settings.animateEasing)
 					$this.trigger('traceHighlight', [element]);
 					
