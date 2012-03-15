@@ -28,8 +28,7 @@
 					var default_settings = {
 						'animate'				: 0.5,
 						'animateEasing'	: 'swing',
-						'selectedClass'	: 'selected',
-						
+						'selected'	: '.selected',
 						'tracer': '<li class="tracer"></li>',
 						'elements': 'li:not([class~="tracer"])'
 					}
@@ -37,7 +36,7 @@
 					settings.id = 'app-slider-'+parseInt(Math.random()*10000000000000000);
 					$this.data('trace', settings);
 					$this.css({'position': 'relative'});
-					var revert = $this.find('.'+settings.selectedClass);
+					var revert = $this.find(settings.selected);
 					var tracer = $(settings.tracer).attr('id', settings.id).css({'position':'absolute', 'left':'0px', 'width': '0px', 'top': '0px', 'padding': '0', 'margin': '0', 'opacity':0});
 					if (revert.size()){
 						tracer.css({
@@ -55,7 +54,7 @@
 						return false;
 					});
 					$this.on('mouseleave.trace', settings.elements, function(){
-						var revert = $this.find('.'+settings.selectedClass);
+						var revert = $this.find(settings.selected);
 						$this.trace('highlight', revert.size()?revert : false);
 						return false;
 					});
@@ -80,7 +79,7 @@
 					}
 					settings.hover = element;
 					$this.data('trace', settings);
-					element.trigger('traceFocus', [$this]);
+					element.trigger('traceFocus', [$this, tracer]);
 					tracer.stop().animate({
 						'opacity':1,
 						'top':element.position().top,
