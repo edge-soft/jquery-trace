@@ -62,7 +62,7 @@
 			});
 		},
 		
-		highlight: function(element){
+		highlight: function(element, skipanimation){
 			return this.each(function(){
 				var $this = $(this), settings = $this.data('trace');
 				var tracer = $this.find('#'+settings.id);
@@ -80,13 +80,24 @@
 					settings.hover = element;
 					$this.data('trace', settings);
 					element.trigger('traceFocus', [$this, tracer]);
-					tracer.stop().animate({
-						'opacity':1,
-						'top':element.position().top,
-						'left':element.position().left,
-						'width': element.outerWidth(true),
-						'height': element.outerHeight(true)
-					}, settings.animate*1000, settings.animateEasing)
+					if (skipanimation){
+						tracer.stop().css({
+							'opacity':1,
+							'top':element.position().top,
+							'left':element.position().left,
+							'width': element.outerWidth(true),
+							'height': element.outerHeight(true)
+						})
+					}
+					else{
+						tracer.stop().animate({
+							'opacity':1,
+							'top':element.position().top,
+							'left':element.position().left,
+							'width': element.outerWidth(true),
+							'height': element.outerHeight(true)
+						}, settings.animate*1000, settings.animateEasing)
+					}
 					$this.trigger('traceHighlight', [element]);
 					
 				}
@@ -95,7 +106,7 @@
 					$this.data('trace', settings);
 					tracer.stop().animate({
 						'opacity':0
-					}, settings.animate*1000, settings.animateEasing, function(){tracer.width(0)})
+					}, settings.animate*1000, settings.animateEasing)
 					$this.trigger('traceHighlight', []);
 				}
 			})
