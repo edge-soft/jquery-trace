@@ -48,6 +48,7 @@
 						})
 					}
 					$this.append(tracer);
+					$this.trigger('traceInit', [$this, tracer])
 					
 					$this.on('mouseenter.trace', settings.elements, function(){
 						$this.trace('highlight', this);
